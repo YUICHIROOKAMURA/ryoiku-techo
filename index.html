@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>療育手帳を理解する｜スタッフのための基礎知識</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --teal-deep: #1a5f7a;
+    --teal-mid: #2d7d9a;
+    --teal-light: #4fa8c5;
+    --teal-pale: #e8f4f8;
+    --teal-bg: #f0f8fb;
+    --amber: #c9841e;
+    --amber-light: #f5e6c8;
+    --amber-pale: #fdf7ee;
+    --warm-dark: #2a2420;
+    --warm-mid: #5a4e47;
+    --warm-light: #8c7c74;
+    --warm-pale: #f5f1ee;
+    --bg-off: #faf8f5;
+    --bg-section: #ffffff;
+    --red-warn: #c0392b;
+    --red-pale: #fbeaea;
+    --green-ok: #27735a;
+    --green-pale: #e8f5ee;
+    --border: #ddd6cf;
+    --shadow: 0 4px 20px rgba(26, 95, 122, 0.10);
+    --shadow-deep: 0 8px 32px rgba(26, 95, 122, 0.16);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg-off);
+    color: var(--warm-dark);
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--teal-deep), var(--teal-light));
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s;
+  }
+
+  /* ===== NAV ===== */
+  #floating-nav {
+    position: fixed;
+    top: 16px; right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .nav-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    border: none;
+  }
+
+  .nav-dot.active {
+    background: var(--teal-deep);
+    transform: scale(1.4);
+  }
+
+  .nav-dot:hover {
+    background: var(--teal-mid);
+  }
+
+  /* ===== COMMON ===== */
+  .section {
+    padding: 80px 0;
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-mid);
+    background: var(--teal-pale);
+    border: 1px solid var(--teal-light);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .section-lead {
+    font-size: 1.05rem;
+    color: var(--warm-mid);
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .callout {
+    border-left: 4px solid var(--teal-mid);
+    background: var(--teal-pale);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+  }
+
+  .callout.warn {
+    border-color: var(--amber);
+    background: var(--amber-pale);
+  }
+
+  .callout.critical {
+    border-color: var(--red-warn);
+    background: var(--red-pale);
+  }
+
+  .callout.good {
+    border-color: var(--green-ok);
+    background: var(--green-pale);
+  }
+
+  .callout p {
+    font-size: 0.95rem;
+    margin: 0;
+    color: var(--warm-dark);
+  }
+
+  .callout strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  .callout.warn strong { color: var(--amber); }
+  .callout.critical strong { color: var(--red-warn); }
+  .callout.good strong { color: var(--green-ok); }
+  .callout strong { color: var(--teal-deep); }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    background: linear-gradient(155deg, var(--teal-deep) 0%, #0e3f52 55%, #1a2a3a 100%);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 1;
+    transform: none;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 80% 30%, rgba(79, 168, 197, 0.15), transparent),
+      radial-gradient(ellipse 400px 500px at 20% 80%, rgba(45, 125, 154, 0.12), transparent);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--teal-light);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--teal-light);
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.25;
+    margin-bottom: 24px;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--teal-light);
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+    margin-bottom: 48px;
+    max-width: 540px;
+    line-height: 1.9;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hero-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.85rem;
+  }
+
+  .hero-badge i {
+    color: var(--teal-light);
+    font-size: 0.9rem;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    animation: pulse-down 2s infinite;
+  }
+
+  .hero-scroll i { font-size: 1.1rem; }
+
+  @keyframes pulse-down {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+    50% { transform: translateX(-50%) translateY(6px); opacity: 0.8; }
+  }
+
+  /* ===== OVERVIEW TABLE - 3 CARDS ===== */
+  .techo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .techo-card {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    background: #fff;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .techo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-deep);
+  }
+
+  .techo-card.highlight {
+    border-color: var(--teal-mid);
+    background: linear-gradient(135deg, #fff 60%, var(--teal-pale));
+  }
+
+  .techo-card .badge-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+  }
+
+  .bg-blue { background: #e8f0fb; color: #2c5ab0; }
+  .bg-teal { background: var(--teal-pale); color: var(--teal-deep); }
+  .bg-purple { background: #f0e8f8; color: #6b3fa0; }
+
+  .techo-card h4 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--warm-dark);
+  }
+
+  .techo-card .techo-law {
+    font-size: 0.78rem;
+    color: var(--warm-light);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .techo-card .techo-target {
+    font-size: 0.82rem;
+    color: var(--warm-mid);
+    line-height: 1.6;
+  }
+
+  .highlight-label {
+    position: absolute;
+    top: -12px; right: 12px;
+    background: var(--teal-deep);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== DEFINITION - 3 CIRCLES ===== */
+  .definition-visual {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 32px 0;
+    position: relative;
+  }
+
+  .def-item {
+    flex: 1;
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 20px;
+    position: relative;
+    text-align: center;
+  }
+
+  .def-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    font-size: 1.1rem;
+    color: var(--teal-mid);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .def-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--teal-deep);
+    color: #fff;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 1rem;
+  }
+
+  .def-item h4 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    margin-bottom: 8px;
+  }
+
+  .def-item p {
+    font-size: 0.82rem;
+    color: var(--warm-mid);
+    line-height: 1.65;
+  }
+
+  .def-item .def-detail {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 0.78rem;
+    color: var(--warm-light);
+    font-style: italic;
+  }
+
+  /* ===== FLOW CHART ===== */
+  .flow-container {
+    position: relative;
+    margin: 32px 0;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .flow-step.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .flow-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 52px;
+  }
+
+  .flow-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--teal-deep);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(26, 95, 122, 0.25);
+  }
+
+  .flow-line {
+    width: 2px;
+    height: 32px;
+    background: linear-gradient(180deg, var(--teal-mid), var(--border));
+    margin: 4px 0;
+  }
+
+  .flow-body {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    flex: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 8px;
+  }
+
+  .flow-body h4 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    margin-bottom: 4px;
+  }
+
+  .flow-body p {
+    font-size: 0.85rem;
+    color: var(--warm-mid);
+    line-height: 1.7;
+  }
+
+  .flow-body .flow-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+
+  .flow-tag.agency { background: var(--teal-pale); color: var(--teal-deep); }
+  .flow-tag.period { background: var(--amber-light); color: var(--amber); }
+
+  /* ===== GRADE TABLE ===== */
+  .grade-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 28px 0;
+  }
+
+  .grade-card {
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grade-card.grade-a {
+    background: linear-gradient(135deg, #1a5f7a 0%, #0e3f52 100%);
+    color: #fff;
+  }
+
+  .grade-card.grade-b {
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0eaf3 100%);
+    border: 2px solid var(--teal-light);
+  }
+
+  .grade-label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
+
+  .grade-card.grade-a .grade-label { color: rgba(255,255,255,0.9); }
+  .grade-card.grade-b .grade-label { color: var(--teal-mid); }
+
+  .grade-name {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .grade-card.grade-a .grade-name { color: rgba(255,255,255,0.9); }
+  .grade-card.grade-b .grade-name { color: var(--teal-deep); }
+
+  .grade-iq {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .grade-card.grade-a .grade-iq { color: rgba(255,255,255,0.75); }
+  .grade-card.grade-b .grade-iq { color: var(--warm-mid); }
+
+  .grade-note {
+    font-size: 0.75rem;
+    opacity: 0.65;
+    font-style: italic;
+  }
+
+  .grade-card.grade-a .grade-note { color: rgba(255,255,255,0.65); }
+  .grade-card.grade-b .grade-note { color: var(--warm-light); }
+
+  /* ===== REGIONAL TABLE ===== */
+  .region-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.88rem;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .region-table th {
+    background: var(--teal-deep);
+    color: #fff;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+
+  .region-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--warm-dark);
+    line-height: 1.5;
+  }
+
+  .region-table tr:last-child td { border-bottom: none; }
+  .region-table tr:nth-child(even) td { background: var(--teal-bg); }
+  .region-table tr:hover td { background: var(--teal-pale); }
+
+  .tag-national { background: var(--teal-pale); color: var(--teal-deep); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+  .tag-local { background: var(--amber-light); color: var(--amber); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+
+  /* ===== ACCORDION ===== */
+  .accordion-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .accordion-header {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 20px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: background 0.2s;
+  }
+
+  .accordion-header:hover { background: var(--warm-pale); }
+
+  .accordion-header.open { background: var(--teal-pale); }
+
+  .acc-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+  }
+
+  .acc-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .acc-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+  }
+
+  .acc-sub {
+    font-size: 0.78rem;
+    color: var(--warm-light);
+    margin-top: 2px;
+  }
+
+  .acc-arrow {
+    color: var(--teal-mid);
+    font-size: 0.85rem;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .accordion-header.open .acc-arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+    padding: 0 20px;
+  }
+
+  .accordion-body.open {
+    max-height: 600px;
+    padding: 0 20px 20px;
+  }
+
+  .service-list {
+    list-style: none;
+    margin-top: 16px;
+  }
+
+  .service-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.88rem;
+    color: var(--warm-dark);
+    line-height: 1.6;
+  }
+
+  .service-list li:last-child { border-bottom: none; }
+
+  .service-list li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal-mid);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  /* ===== SHURO CONNECT ===== */
+  .connect-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 28px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .connect-node {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    min-width: 160px;
+    flex: 1;
+    max-width: 200px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .connect-node:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-deep);
+  }
+
+  .connect-node.center {
+    border-color: var(--teal-mid);
+    background: linear-gradient(135deg, #fff 60%, var(--teal-pale));
+  }
+
+  .connect-node i {
+    font-size: 1.6rem;
+    color: var(--teal-mid);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .connect-node h4 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    margin-bottom: 6px;
+  }
+
+  .connect-node p {
+    font-size: 0.78rem;
+    color: var(--warm-mid);
+    line-height: 1.6;
+  }
+
+  .connect-arrow {
+    width: 32px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--teal-light);
+    flex-shrink: 0;
+  }
+
+  /* ===== GRAY ZONE ===== */
+  .iq-bar-container {
+    margin: 32px 0;
+    position: relative;
+  }
+
+  .iq-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+    color: var(--warm-light);
+  }
+
+  .iq-bar {
+    height: 48px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
+  }
+
+  .iq-seg {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    transition: filter 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .iq-seg:hover { filter: brightness(1.1); }
+
+  .iq-seg.very-severe { background: #7f1d1d; flex: 2; }
+  .iq-seg.severe { background: #b91c1c; flex: 2; }
+  .iq-seg.moderate { background: var(--teal-deep); flex: 3; }
+  .iq-seg.mild { background: var(--teal-mid); flex: 3; }
+  .iq-seg.gray { background: repeating-linear-gradient(45deg, #888, #888 3px, #aaa 3px, #aaa 8px); flex: 4; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+  .iq-seg.normal { background: #d1d5db; flex: 10; color: var(--warm-dark); }
+
+  .iq-tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--warm-dark);
+    color: #fff;
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 10;
+    transition: opacity 0.2s;
+  }
+
+  .iq-seg:hover .iq-tooltip { opacity: 1; }
+
+  .iq-marker {
+    display: flex;
+    margin-top: 12px;
+    font-size: 0.78rem;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .iq-marker-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--warm-mid);
+  }
+
+  .dot-sm {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .gray-zone-box {
+    border: 2px dashed #999;
+    border-radius: 12px;
+    padding: 24px;
+    background: #f9f9f9;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .gray-zone-box::before {
+    content: '境界知能の狭間';
+    position: absolute;
+    top: -13px; left: 20px;
+    background: #f9f9f9;
+    padding: 0 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== CRITICAL SECTION ===== */
+  #criticism {
+    background: linear-gradient(135deg, #2a2420 0%, #1a1512 100%);
+  }
+
+  #criticism .section-tag {
+    background: rgba(201,132,30,0.15);
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  #criticism h2 {
+    color: #fff;
+  }
+
+  #criticism .section-lead {
+    color: rgba(255,255,255,0.6);
+  }
+
+  .criticism-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .criticism-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    transition: background 0.2s;
+  }
+
+  .criticism-card:hover {
+    background: rgba(255,255,255,0.08);
+  }
+
+  .criticism-card h4 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .criticism-card p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.75;
+  }
+
+  /* ===== PRACTICE CHECKLIST ===== */
+  .checklist {
+    list-style: none;
+    margin: 24px 0;
+  }
+
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .check-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--teal-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal-deep);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .checklist li .check-text {
+    flex: 1;
+  }
+
+  .checklist li .check-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--warm-dark);
+    margin-bottom: 3px;
+  }
+
+  .checklist li .check-text span {
+    font-size: 0.83rem;
+    color: var(--warm-mid);
+    line-height: 1.65;
+  }
+
+  /* ===== SOURCES ===== */
+  #sources {
+    background: var(--warm-pale);
+    border-top: 1px solid var(--border);
+  }
+
+  .source-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .source-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .source-card:hover {
+    border-color: var(--teal-mid);
+    box-shadow: var(--shadow);
+  }
+
+  .source-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--teal-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal-deep);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .source-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    margin-bottom: 2px;
+  }
+
+  .source-url {
+    font-size: 0.72rem;
+    color: var(--warm-light);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--warm-dark);
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 0.8rem;
+  }
+
+  footer strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+  }
+
+  /* ===== UTILITY ===== */
+  .mt-0 { margin-top: 0; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mt-32 { margin-top: 32px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .text-sm { font-size: 0.85rem; color: var(--warm-mid); line-height: 1.75; }
+  .text-xs { font-size: 0.78rem; color: var(--warm-light); }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, var(--teal-pale), #e0f0f7);
+    border: 1.5px solid var(--teal-light);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+
+  .highlight-box p {
+    font-size: 0.9rem;
+    color: var(--warm-dark);
+    line-height: 1.8;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 680px) {
+    h2 { font-size: 1.6rem; }
+    .techo-grid { grid-template-columns: 1fr; }
+    .definition-visual { flex-direction: column; }
+    .def-connector { transform: rotate(90deg); height: 24px; width: 100%; justify-content: center; }
+    .grade-visual { grid-template-columns: 1fr; }
+    .criticism-grid { grid-template-columns: 1fr; }
+    .source-grid { grid-template-columns: 1fr; }
+    .connect-flow { flex-direction: column; }
+    .connect-arrow { transform: rotate(90deg); }
+    #floating-nav { display: none; }
+  }
+
+  /* ===== SCROLL DELAY ===== */
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+  .delay-4 { transition-delay: 0.4s; }
+
+  /* Section alt bg */
+  .bg-alt { background: var(--warm-pale); }
+  .bg-teal-section { background: linear-gradient(180deg, var(--teal-bg) 0%, #fff 100%); }
+
+  /* Two col layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 580px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .stat-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--warm-mid);
+    line-height: 1.5;
+  }
+
+  .inline-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+
+  .badge-a { background: var(--teal-deep); color: #fff; }
+  .badge-b { background: var(--teal-pale); color: var(--teal-deep); border: 1px solid var(--teal-light); }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav id="floating-nav" aria-label="セクション一覧">
+  <button class="nav-dot active" data-section="hero" title="トップ"></button>
+  <button class="nav-dot" data-section="overview" title="3種の手帳"></button>
+  <button class="nav-dot" data-section="definition" title="知的障害の定義"></button>
+  <button class="nav-dot" data-section="flow" title="申請・判定フロー"></button>
+  <button class="nav-dot" data-section="grade" title="等級と地域差"></button>
+  <button class="nav-dot" data-section="services" title="支援・サービス"></button>
+  <button class="nav-dot" data-section="shuro" title="就労支援との接点"></button>
+  <button class="nav-dot" data-section="grayzone" title="グレーゾーン"></button>
+  <button class="nav-dot" data-section="criticism" title="制度の課題"></button>
+  <button class="nav-dot" data-section="practice" title="スタッフ実践"></button>
+  <button class="nav-dot" data-section="sources" title="情報源"></button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">スタッフのための制度理解ガイド</div>
+      <h1 class="hero-title">
+        療育手帳を<br>
+        <em>正確に</em>理解する
+      </h1>
+      <p class="hero-subtitle">
+        知的障害のある人を対象とした福祉手帳制度。<br>
+        基本的な仕組みから地域格差・グレーゾーンまで、<br>
+        支援スタッフとして知っておくべきことを体系的に整理します。
+      </p>
+      <div class="hero-meta">
+        <div class="hero-badge">
+          <i class="fa-regular fa-clock"></i>
+          読了目安：約8〜10分
+        </div>
+        <div class="hero-badge">
+          <i class="fa-regular fa-bookmark"></i>
+          就労移行支援スタッフ向け
+        </div>
+        <div class="hero-badge">
+          <i class="fa-solid fa-scale-balanced"></i>
+          批判的視点を含む
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>スクロール</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- ===== SECTION 1: 3種の手帳 ===== -->
+<section id="overview" class="section bg-teal-section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-map" style="margin-right:6px"></i>全体像</div>
+    <h2>障害者手帳3種類の「地図」</h2>
+    <p class="section-lead">療育手帳を理解するには、まず3種類の障害者手帳の全体像を把握することが出発点です。</p>
+
+    <div class="techo-grid">
+      <div class="techo-card">
+        <div class="badge-icon bg-blue"><i class="fa-solid fa-person-cane"></i></div>
+        <h4>身体障害者手帳</h4>
+        <p class="techo-law"><i class="fa-solid fa-gavel" style="font-size:0.7rem;margin-right:4px"></i>根拠：<strong>身体障害者福祉法</strong>（1949年制定）</p>
+        <p class="techo-target">視覚・聴覚・肢体・内部障害などの身体的な機能障害が対象。1〜6級で区分。</p>
+      </div>
+
+      <div class="techo-card highlight">
+        <div class="highlight-label">今回のテーマ</div>
+        <div class="badge-icon bg-teal"><i class="fa-solid fa-book-open"></i></div>
+        <h4>療育手帳</h4>
+        <p class="techo-law"><i class="fa-solid fa-gavel" style="font-size:0.7rem;margin-right:4px"></i>根拠：<strong>厚生省通知</strong>（1973年）※法律なし</p>
+        <p class="techo-target">知的障害のある人が対象。A（重度）・B（中軽度）の2段階が基本だが、自治体ごとに異なる。</p>
+      </div>
+
+      <div class="techo-card">
+        <div class="badge-icon bg-purple"><i class="fa-solid fa-brain"></i></div>
+        <h4>精神障害者保健福祉手帳</h4>
+        <p class="techo-law"><i class="fa-solid fa-gavel" style="font-size:0.7rem;margin-right:4px"></i>根拠：<strong>精神保健福祉法</strong>（1995年改正）</p>
+        <p class="techo-target">統合失調症・気分障害・発達障害等が対象。1〜3級で区分。</p>
+      </div>
+    </div>
+
+    <div class="callout critical">
+      <strong><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px"></i>重要：療育手帳の法的根拠の特殊性</strong>
+      <p>3種の障害者手帳のうち、<strong>療育手帳だけが法律に基づいていません</strong>。根拠は1973年の厚生省通知（行政指導の一形態）です。これが後述する「自治体ごとの大きな格差」の根本原因です。精神障害者保健福祉手帳が法律に基づくのとは対照的で、療育手帳の法制化は長年の課題として議論が続いています。</p>
+    </div>
+
+    <div class="two-col mt-24">
+      <div class="stat-box">
+        <div class="stat-num">約114万人</div>
+        <div class="stat-label">療育手帳所持者数（令和4年・厚生労働省「生活のしづらさなどに関する調査」）<br>在宅者の推計値。施設入所者は別途集計。</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">1973年</div>
+        <div class="stat-label">療育手帳制度の発足年<br>50年以上経った現在も法律化されていない。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: 知的障害の定義 ===== -->
+<section id="definition" class="section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-magnifying-glass" style="margin-right:6px"></i>対象者</div>
+    <h2>「知的障害」の正確な定義</h2>
+    <p class="section-lead">「IQが低い＝知的障害」という単純な理解は不正確です。知的障害の認定には、3つの条件がすべて揃う必要があります。</p>
+
+    <div class="definition-visual">
+      <div class="def-item">
+        <div class="def-num">1</div>
+        <h4>知的機能の障害</h4>
+        <p>IQ（知能指数）の目安として概ね<strong>75以下</strong>が目安とされています。</p>
+        <p class="def-detail">IQは70を基準とする考え方もあり、<br>判定機関・自治体によって扱いが異なります。</p>
+      </div>
+      <div class="def-connector"><i class="fa-solid fa-plus"></i></div>
+      <div class="def-item">
+        <div class="def-num">2</div>
+        <h4>適応行動の制限</h4>
+        <p>日常生活・社会生活において、年齢相応の<strong>適応行動に困難</strong>がある。</p>
+        <p class="def-detail">金銭管理・コミュニケーション・<br>社会的ルールの理解など。</p>
+      </div>
+      <div class="def-connector"><i class="fa-solid fa-plus"></i></div>
+      <div class="def-item">
+        <div class="def-num">3</div>
+        <h4>発達期における発症</h4>
+        <p>おおむね<strong>18歳未満</strong>の発達期に生じたものであること。</p>
+        <p class="def-detail">事故や病気により成人後に認知機能が<br>低下した場合は対象外となる。</p>
+      </div>
+    </div>
+
+    <div class="callout warn mt-16">
+      <strong><i class="fa-solid fa-arrows-split-up-and-left" style="margin-right:6px"></i>発達障害との関係</strong>
+      <p>ASD（自閉スペクトラム症）やADHD（注意欠如・多動症）は、<strong>知的障害を伴わない場合は療育手帳の対象外</strong>です。ただし、知的障害を伴うASD等は対象となります。この場合、療育手帳と精神障害者保健福祉手帳の両方を所持するケースもあります（制度上は可能ですが、実務上は一方を選ぶことが多い）。</p>
+    </div>
+
+    <div class="card mt-24">
+      <h4 style="font-family:'Noto Serif JP',serif; color:var(--teal-deep); margin-bottom:12px;">
+        <i class="fa-solid fa-circle-info" style="margin-right:8px; color:var(--teal-mid)"></i>
+        IQという指標の限界について
+      </h4>
+      <p class="text-sm">IQはひとつの指標に過ぎません。現在の判定では<strong>日常生活能力（適応行動）</strong>も重視されており、IQが基準値内でも日常生活に著しい支障がある場合は手帳交付の対象となることがあります。逆に、IQが比較的高くても適応行動に困難を抱える発達障害のある人は、IQの数値だけでは判定されません。「IQ＝障害の重さ」という単純な読み替えは避けるべきです。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: 申請・判定フロー ===== -->
+<section id="flow" class="section bg-alt">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-route" style="margin-right:6px"></i>手続き</div>
+    <h2>申請・判定の仕組み</h2>
+    <p class="section-lead">療育手帳の取得は、自分で動くだけでは完結しません。複数の機関が関わる「二段階構造」を理解することが重要です。</p>
+
+    <div class="flow-container">
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle"><i class="fa-solid fa-user-pen"></i></div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <h4>STEP 1｜申請</h4>
+          <p>本人または保護者が、居住地の<strong>市区町村の福祉窓口</strong>（福祉事務所等）に申請書類を提出します。</p>
+          <span class="flow-tag agency">窓口：市区町村</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle"><i class="fa-solid fa-stethoscope"></i></div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <h4>STEP 2｜判定（核心部）</h4>
+          <p>専門機関が知的能力の検査・生活能力の評価を行い、手帳の等級（AまたはB）を決定します。</p>
+          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="flow-tag agency">18歳以上：知的障害者更生相談所</span>
+            <span class="flow-tag agency">18歳未満：児童相談所</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle"><i class="fa-solid fa-id-card"></i></div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-body">
+          <h4>STEP 3｜交付</h4>
+          <p>判定結果をもとに、<strong>市区町村から手帳が交付</strong>されます。申請から交付まで通常1〜2ヶ月程度。</p>
+          <span class="flow-tag agency">窓口：市区町村</span>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="flow-left">
+          <div class="flow-circle"><i class="fa-solid fa-rotate"></i></div>
+        </div>
+        <div class="flow-body">
+          <h4>STEP 4｜定期再判定</h4>
+          <p>定期的な再判定が行われます。頻度は自治体によって異なり、<strong>概ね2〜5年</strong>が目安です（例：東京都は3・6・12・18歳で更新・成人後は無期限、名古屋市は18歳未満3年・成人5年）。成長や加齢によって等級が変わる場合があります。</p>
+          <span class="flow-tag period">更新頻度：自治体により概ね2〜5年</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout mt-8">
+      <strong><i class="fa-solid fa-building-columns" style="margin-right:6px"></i>「知的障害者更生相談所」とは</strong>
+      <p>都道府県・政令指定都市が設置する行政機関で、知的障害者の専門的な判定・相談・支援を担います。心理検査（WISC・田中ビネー等）を用いた知的能力検査、日常生活能力の聞き取り調査を実施します。医療機関ではありませんが、専門的な心理・福祉職が判定を行います。</p>
+    </div>
+
+    <div class="callout warn mt-8">
+      <strong><i class="fa-solid fa-file-circle-question" style="margin-right:6px"></i>医師の診断書は必須ではない場合も</strong>
+      <p>精神障害者保健福祉手帳の取得には精神科医の診断書が必須ですが、療育手帳は<strong>更生相談所・児童相談所の判定そのものが根拠</strong>となるため、医師の診断書なしでも取得できる自治体が多いです。ただし、自治体によって異なります。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: 等級と地域差 ===== -->
+<section id="grade" class="section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-layer-group" style="margin-right:6px"></i>等級制度</div>
+    <h2>等級の構造と地域格差の実態</h2>
+    <p class="section-lead">「A・B 2段階」は全国共通のおおまかな枠組みですが、実態は自治体ごとに大きく異なります。</p>
+
+    <div class="grade-visual">
+      <div class="grade-card grade-a">
+        <div class="grade-label">A</div>
+        <div class="grade-name">重度・最重度</div>
+        <p class="grade-iq">IQ目安：概ね35以下程度<br>（自治体により50以下等、幅あり）<br><br>日常生活に常時介護が必要なレベル。<br>言語・コミュニケーションに著しい困難を<br>伴うことが多い。</p>
+        <p class="grade-note">※IQはあくまで参考値。適応行動の評価が重視される。</p>
+      </div>
+      <div class="grade-card grade-b">
+        <div class="grade-label">B</div>
+        <div class="grade-name">中度・軽度</div>
+        <p class="grade-iq">IQ目安：概ね36〜75程度<br>（自治体により異なる）<br><br>日常生活に部分的なサポートが必要。<br>就労や社会参加が可能な範囲も含まれる。<br>就労移行支援の利用者層に近い。</p>
+        <p class="grade-note">※B1（中度相当）・B2（軽度相当）と<br>細分化する自治体もある。</p>
+      </div>
+    </div>
+
+    <div class="callout critical mt-8">
+      <strong><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px"></i>等級は「全国統一」ではない</strong>
+      <p>AとBの2段階分けは通知に示された枠組みですが、各自治体が独自に細分化・名称変更をしています。これは法的根拠がないことに起因する構造的問題です。</p>
+    </div>
+
+    <table class="region-table mt-24">
+      <thead>
+        <tr>
+          <th>自治体</th>
+          <th>手帳の名称</th>
+          <th>等級区分</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>全国（通知標準）</td>
+          <td>療育手帳</td>
+          <td>A（重度）・B（中軽度）</td>
+          <td><span class="tag-national">標準</span></td>
+        </tr>
+        <tr>
+          <td>東京都</td>
+          <td><strong>愛の手帳</strong></td>
+          <td>1度（最重度）〜4度（軽度）</td>
+          <td><span class="tag-local">独自</span> 4段階</td>
+        </tr>
+        <tr>
+          <td>横浜市</td>
+          <td><strong>愛の手帳</strong></td>
+          <td>A1・A2・B1・B2</td>
+          <td><span class="tag-local">独自</span> 4段階</td>
+        </tr>
+        <tr>
+          <td>さいたま市</td>
+          <td><strong>みどりの手帳</strong></td>
+          <td>◎A・A・B・C</td>
+          <td><span class="tag-local">独自</span> 4段階</td>
+        </tr>
+        <tr>
+          <td>名古屋市</td>
+          <td><strong>愛護手帳</strong></td>
+          <td>1度（最重度）〜4度（軽度）</td>
+          <td><span class="tag-local">独自</span> 4段階</td>
+        </tr>
+        <tr>
+          <td>大阪府</td>
+          <td>療育手帳</td>
+          <td>A（重度）・B1（中程度）・B2（軽度）</td>
+          <td><span class="tag-local">独自</span> 3段階</td>
+        </tr>
+        <tr>
+          <td>その他多くの道府県</td>
+          <td>療育手帳</td>
+          <td>A（重度）・B1・B2（中軽度） 等</td>
+          <td><span class="tag-local">独自</span> 各自治体で異なる</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn mt-16">
+      <strong><i class="fa-solid fa-arrows-left-right" style="margin-right:6px"></i>転居時の注意点</strong>
+      <p>他都道府県に転居した場合、手帳の名称や等級が自動的に変わる場合があります。東京都の「愛の手帳」を持つ人が他県に転居する際は、新たな判定が必要になることがあり、等級が変わる可能性も否定できません。支援者として利用者の転居時には確認が必要です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: 支援・サービス ===== -->
+<section id="services" class="section bg-teal-section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-hands-helping" style="margin-right:6px"></i>支援内容</div>
+    <h2>手帳で利用できる支援・サービス</h2>
+    <p class="section-lead">療育手帳を取得することで、さまざまな制度的サポートを受けられます。下記のカテゴリをクリックして詳細を確認してください。</p>
+
+    <!-- ACCORDION -->
+    <div id="accordion-container">
+
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <div class="acc-left">
+            <div class="acc-icon bg-teal"><i class="fa-solid fa-yen-sign"></i></div>
+            <div>
+              <div class="acc-title">税制上の優遇</div>
+              <div class="acc-sub">所得税・住民税・相続税など</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down acc-arrow"></i>
+        </button>
+        <div class="accordion-body">
+          <ul class="service-list">
+            <li><strong>所得税・住民税の障害者控除：</strong>27万円（特別障害者＝A判定は40万円）の所得控除。</li>
+            <li><strong>相続税の障害者控除：</strong>相続人が障害者の場合、85歳までの年数に応じた控除（特別障害者は倍額）。</li>
+            <li><strong>自動車税・自動車取得税の減免：</strong>等級・障害の種類によって異なるが、手帳所持者本人または家族が使用する車両の税が軽減。</li>
+            <li><strong>NHK受信料の免除：</strong>世帯内に障害者がいる場合、一定条件下で全額免除。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <div class="acc-left">
+            <div class="acc-icon bg-blue"><i class="fa-solid fa-train-subway"></i></div>
+            <div>
+              <div class="acc-title">交通機関・施設の割引</div>
+              <div class="acc-sub">移動支援・社会参加の促進</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down acc-arrow"></i>
+        </button>
+        <div class="accordion-body">
+          <ul class="service-list">
+            <li><strong>JR旅客運賃の割引：</strong>本人と介護者が5割引（100km超の場合は本人のみ5割引）。</li>
+            <li><strong>バス・地下鉄・私鉄：</strong>多くの公共交通機関で割引あり（事業者・地域によって異なる）。</li>
+            <li><strong>航空運賃：</strong>各航空会社が独自の割引料金を設定（ANA・JALともに障害者割引あり）。</li>
+            <li><strong>公共施設・博物館・動物園等：</strong>入場料の無料・割引。民間施設も独自対応のところが多い。</li>
+            <li><strong>携帯電話料金の割引：</strong>大手キャリアが独自に障害者向け料金プランを提供。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <div class="acc-left">
+            <div class="acc-icon bg-purple"><i class="fa-solid fa-hands-holding-circle"></i></div>
+            <div>
+              <div class="acc-title">障害福祉サービス</div>
+              <div class="acc-sub">障害者総合支援法に基づく各種サービス</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down acc-arrow"></i>
+        </button>
+        <div class="accordion-body">
+          <ul class="service-list">
+            <li><strong>就労移行支援：</strong>一般就労を目指す訓練・就職活動支援。療育手帳所持者も利用可能（後述）。</li>
+            <li><strong>就労継続支援（A型・B型）：</strong>一般就労が困難な人の継続的な就労機会の提供。</li>
+            <li><strong>生活介護：</strong>日中の介護・創作的活動・社会参加支援。主にA判定の重度者向け。</li>
+            <li><strong>グループホーム（共同生活援助）：</strong>地域での共同生活を支援する住居。世話人が常駐。</li>
+            <li><strong>居宅介護・重度訪問介護：</strong>自宅での日常生活を支援するヘルパー派遣。</li>
+            <li><strong>短期入所（ショートステイ）：</strong>家族の緊急時等に施設で一時的に支援を受ける。</li>
+            <li><strong>行動援護：</strong>行動上の困難がある知的・精神障害者の外出支援。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <div class="acc-left">
+            <div class="acc-icon" style="background:#f0ffe8;color:#27735a;"><i class="fa-solid fa-briefcase"></i></div>
+            <div>
+              <div class="acc-title">雇用・就労支援</div>
+              <div class="acc-sub">障害者雇用枠・就職活動での活用</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down acc-arrow"></i>
+        </button>
+        <div class="accordion-body">
+          <ul class="service-list">
+            <li><strong>障害者雇用枠（特定求人）での就職：</strong>障害者雇用促進法に基づき、法定雇用率を達成するために設けられた採用枠での就職活動が可能。</li>
+            <li><strong>障害者求人への応募：</strong>ハローワークの専門窓口「ハローワーク障害者求人」の利用。</li>
+            <li><strong>就労定着支援：</strong>就職後の職場定着を支援するサービス（就労移行支援修了後も利用可能）。</li>
+            <li><strong>障害者職業センター：</strong>就職前後の職業評価・職場適応訓練・カウンセリング等の利用。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">
+          <div class="acc-left">
+            <div class="acc-icon" style="background:#fef0e8;color:#c9541e;"><i class="fa-solid fa-house"></i></div>
+            <div>
+              <div class="acc-title">住宅・生活支援</div>
+              <div class="acc-sub">公営住宅・日常生活用具等</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down acc-arrow"></i>
+        </button>
+        <div class="accordion-body">
+          <ul class="service-list">
+            <li><strong>公営住宅への優先入居：</strong>都道府県・市区町村の公営住宅（都営・市営等）での優先的な入居資格。</li>
+            <li><strong>日常生活用具の給付・貸与：</strong>コミュニケーション支援機器等の購入費補助（市区町村事業）。</li>
+            <li><strong>生活福祉資金の貸付：</strong>低所得・障害者世帯向けの無利子・低利子貸付制度。</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /accordion-container -->
+  </div>
+</section>
+
+<!-- ===== SECTION 6: 就労支援との接点 ===== -->
+<section id="shuro" class="section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-building" style="margin-right:6px"></i>就労移行支援との関係</div>
+    <h2>就労移行支援・障害者雇用との接点</h2>
+    <p class="section-lead">キズキビジネスカレッジを含む就労移行支援事業所において、療育手帳保持者との関わりはどのような形で生じるのかを整理します。</p>
+
+    <div class="connect-flow">
+      <div class="connect-node">
+        <i class="fa-solid fa-id-card"></i>
+        <h4>療育手帳（B判定）</h4>
+        <p>軽度・中度の知的障害。就労を目指す意欲がある層。</p>
+      </div>
+      <div class="connect-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="connect-node center">
+        <i class="fa-solid fa-school"></i>
+        <h4>就労移行支援事業所</h4>
+        <p>KBCを含む就労移行は療育手帳所持者も利用対象。</p>
+      </div>
+      <div class="connect-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      <div class="connect-node">
+        <i class="fa-solid fa-handshake"></i>
+        <h4>障害者雇用枠での就職</h4>
+        <p>手帳があることで採用選考の対象が広がる。</p>
+      </div>
+    </div>
+
+    <div class="two-col mt-8">
+      <div class="card">
+        <h4 style="font-family:'Noto Serif JP',serif;color:var(--teal-deep);margin-bottom:12px;">
+          <i class="fa-solid fa-check-circle" style="color:var(--green-ok);margin-right:8px"></i>
+          就労移行支援の利用条件
+        </h4>
+        <p class="text-sm">身体・知的・精神障害、難病等で<strong>障害者総合支援法の対象</strong>となる方が利用可能。療育手帳所持者は利用資格の要件を満たします。ただし、同事業所の支援方針・対応可能な障害特性の幅によって、実際の受け入れ態勢は異なります。</p>
+      </div>
+      <div class="card">
+        <h4 style="font-family:'Noto Serif JP',serif;color:var(--teal-deep);margin-bottom:12px;">
+          <i class="fa-solid fa-exclamation-circle" style="color:var(--amber);margin-right:8px"></i>
+          KBCにおける現状と課題
+        </h4>
+        <p class="text-sm">KBCでは知的障害を主障害とする利用者は少数です。ただし、ASDやADHDに軽度の知的障害が重複するケース、または手帳の取得を迷っている利用者への情報提供場面では、療育手帳の正確な知識が実務上必要となります。</p>
+      </div>
+    </div>
+
+    <div class="callout good mt-24">
+      <strong><i class="fa-solid fa-lightbulb" style="margin-right:6px"></i>手帳取得の意思決定支援</strong>
+      <p>療育手帳の取得は、利用者・家族の価値観と深く関わる判断です。「取得した方がいい・悪い」という単純な助言ではなく、<strong>手帳によって生じるメリット・デメリット・スティグマの問題</strong>を丁寧に整理し、本人・家族が納得して決定できるよう情報提供をすることがスタッフの役割です。</p>
+    </div>
+
+    <div class="callout mt-8">
+      <strong><i class="fa-solid fa-arrows-turn-right" style="margin-right:6px"></i>精神障害者保健福祉手帳との選択・併用</strong>
+      <p>知的障害と精神疾患・発達障害が重複する場合、両方の手帳を持つことは制度上可能です。ただし実務上は、どちらを主として申請・利用するかで支援の方向性が変わります。ASDに軽度知的障害が重複する場合など、どちらの手帳が本人の生活に資するかを総合的に検討する必要があります。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: グレーゾーン ===== -->
+<section id="grayzone" class="section bg-alt">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-circle-half-stroke" style="margin-right:6px"></i>支援の空白地帯</div>
+    <h2>「グレーゾーン」と境界知能の問題</h2>
+    <p class="section-lead">療育手帳制度が最も見落としやすいのが、手帳を取得できないが確かに困難を抱えている「境界知能」の人々です。</p>
+
+    <div class="iq-bar-container">
+      <div class="iq-labels">
+        <span>IQ 20</span>
+        <span>IQ 50</span>
+        <span>IQ 70</span>
+        <span>IQ 85</span>
+        <span>IQ 115+</span>
+      </div>
+      <div class="iq-bar">
+        <div class="iq-seg very-severe">
+          最重度
+          <div class="iq-tooltip">IQ〜20：最重度知的障害。常時介護が必要。</div>
+        </div>
+        <div class="iq-seg severe">
+          重度
+          <div class="iq-tooltip">IQ 20〜35：重度知的障害。A判定の対象。</div>
+        </div>
+        <div class="iq-seg moderate">
+          中度
+          <div class="iq-tooltip">IQ 35〜50：中度知的障害。A・B判定の対象（自治体による）。</div>
+        </div>
+        <div class="iq-seg mild">
+          軽度
+          <div class="iq-tooltip">IQ 50〜70：軽度知的障害。B判定の対象。就労可能層も含まれる。</div>
+        </div>
+        <div class="iq-seg gray">
+          境界知能
+          <div class="iq-tooltip">IQ 70〜84：療育手帳の対象外になりやすい「グレーゾーン」</div>
+        </div>
+        <div class="iq-seg normal">
+          平均的知能
+          <div class="iq-tooltip">IQ 85以上：統計上の「平均範囲」</div>
+        </div>
+      </div>
+      <div class="iq-marker">
+        <div class="iq-marker-item">
+          <div class="dot-sm" style="background:var(--teal-deep)"></div>
+          <span>療育手帳の対象（概ね）</span>
+        </div>
+        <div class="iq-marker-item">
+          <div class="dot-sm" style="background:#999;"></div>
+          <span>境界知能（手帳なし・支援薄い）</span>
+        </div>
+        <div class="iq-marker-item">
+          <div class="dot-sm" style="background:#d1d5db;"></div>
+          <span>手帳の対象外</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gray-zone-box">
+      <h4 style="font-family:'Noto Serif JP',serif; font-size:1rem; font-weight:700; color:#555; margin-bottom:12px;">境界知能（IQ 70〜84）とは</h4>
+      <p class="text-sm">統計上、人口の約14%が該当するとされています。知的障害の診断基準を満たさないため療育手帳を取得できず、かつ発達障害等の診断がなければ精神障害者保健福祉手帳も取得できません。しかし、学業・就労・対人関係における困難は実在します。</p>
+      <br>
+      <p class="text-sm">「手帳がないため制度的支援がない」→「適切な支援なく困難な状況が継続」→「二次障害（うつ、不安障害等）を発症」→「精神障害者保健福祉手帳を取得」というルートをたどるケースが多く、<strong>制度の網目をすり抜けた支援の空白地帯</strong>となっています。</p>
+    </div>
+
+    <div class="callout critical">
+      <strong><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px"></i>支援現場での含意</strong>
+      <p>就労移行支援では「手帳がない＝知的困難がない」という単純な前提を置かないことが重要です。IQの数値を直接確認する機会は少ないですが、作業指示の理解・文書読解・数の処理に困難を感じているように見える利用者が境界知能の可能性を持つことがあります。支援者として、手帳の有無だけでなく実際の認知特性に目を向ける視点が求められます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8: 批判的視点 ===== -->
+<section id="criticism" class="section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-magnifying-glass-chart" style="margin-right:6px"></i>制度の課題</div>
+    <h2>療育手帳制度の構造的課題</h2>
+    <p class="section-lead">制度の現状をただ覚えるだけでなく、その課題と限界を理解することが、より良い支援につながります。</p>
+
+    <div class="criticism-grid">
+      <div class="criticism-card">
+        <h4>
+          <i class="fa-solid fa-map-location-dot"></i>
+          自治体間の著しい格差
+        </h4>
+        <p>法律ではなく通知に基づくため、判定基準・等級分類・名称がすべて自治体任せです。IQ60の人が東京都では3度（中度）、他県ではB1と判定される可能性があります。同じ障害の重さでも居住地によって受けられる支援が変わるという、地域による不公平が内在しています。</p>
+      </div>
+
+      <div class="criticism-card">
+        <h4>
+          <i class="fa-solid fa-chart-line"></i>
+          IQ数値偏重への批判
+        </h4>
+        <p>IQは「特定の検査における認知処理能力」を測定するものであり、実際の日常生活・就労能力を完全には反映しません。高IQでも複雑な日常生活に困難を抱える人や、低IQでも適応行動が高い人がいます。IQを主軸とした判定システムは、当事者の生活実態を十分に捉えきれていないとの批判があります。</p>
+      </div>
+
+      <div class="criticism-card">
+        <h4>
+          <i class="fa-solid fa-gavel"></i>
+          法制化の未整備
+        </h4>
+        <p>制度発足から50年以上が経過した現在も、療育手帳を定める法律は存在しません。法制化が実現すれば全国統一の基準・名称・等級が整備されますが、その議論は進んでいません。利用者・支援者にとっての制度的安定性に欠けるという根本的問題が続いています。</p>
+      </div>
+
+      <div class="criticism-card">
+        <h4>
+          <i class="fa-solid fa-person-circle-question"></i>
+          スティグマと取得回避
+        </h4>
+        <p>「知的障害者の手帳」というラベルへの抵抗感から、本来利用資格があるにもかかわらず手帳取得を拒む本人・家族が少なくありません。これはスティグマの問題であり、制度設計の限界でもあります。手帳がなければ制度的支援に繋がれないという構造は、スティグマを持つ人を排除するリスクを抱えています。</p>
+      </div>
+
+      <div class="criticism-card">
+        <h4>
+          <i class="fa-solid fa-rotate"></i>
+          再判定による等級変動
+        </h4>
+        <p>定期再判定（頻度は自治体により異なる）によって等級が変わり、それに伴い利用できるサービスが変化する場合があります。特に子ども期から成人期への移行、または加齢により、サポートの必要性が増しているにもかかわらず等級が「軽度」に変更されるケースがあります。これは生活設計への不確実性をもたらします。</p>
+      </div>
+
+      <div class="criticism-card">
+        <h4>
+          <i class="fa-solid fa-network-wired"></i>
+          複合障害者への対応の複雑さ
+        </h4>
+        <p>ASD＋知的障害、ADHD＋境界知能のように複数の特性が重複するケースでは、どの手帳が適切か、どのサービスを組み合わせるかの判断が複雑になります。縦割りの制度設計が、複合的な支援ニーズを持つ人への包括的対応を困難にしている場面があります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 9: スタッフ実践 ===== -->
+<section id="practice" class="section bg-teal-section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-clipboard-check" style="margin-right:6px"></i>実践ポイント</div>
+    <h2>スタッフとして知っておきたい実践的ポイント</h2>
+    <p class="section-lead">知識を支援の質に変えるために、以下のポイントを意識してください。</p>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon"><i class="fa-solid fa-book"></i></div>
+        <div class="check-text">
+          <strong>手帳の「名前」だけでなく「等級」を確認する</strong>
+          <span>「療育手帳持っています」では情報が不十分です。A・B（または各自治体の区分）のどの等級かによって、利用できるサービスの種類・優先度が大きく異なります。また「愛の手帳」「愛護手帳」など名称が異なる場合も療育手帳であることを理解しておく。</span>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><i class="fa-solid fa-comment-dots"></i></div>
+        <div class="check-text">
+          <strong>手帳取得の意思決定を急かさない</strong>
+          <span>手帳取得はスタッフが「勧める」ことではなく、利用者・家族が情報を得た上で自己決定するプロセスです。スティグマの問題・家族のアイデンティティへの影響を尊重し、メリット・デメリットの情報提供に徹する姿勢が重要です。</span>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><i class="fa-solid fa-eye"></i></div>
+        <div class="check-text">
+          <strong>手帳の有無だけで支援レベルを判断しない</strong>
+          <span>手帳なし＝困難なし、ではありません。境界知能・未診断・手帳取得を拒否しているケースを含め、実際の認知・適応行動の特性を観察・アセスメントで把握することが支援の基本です。</span>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><i class="fa-solid fa-map-pin"></i></div>
+        <div class="check-text">
+          <strong>自治体ごとの違いを前提として情報収集する</strong>
+          <span>「療育手帳で〜が使える」と断言する前に、利用者の居住地（申請地）の自治体の制度を確認する習慣をつけてください。特に引っ越し後や転居予定のある利用者については、移転先の制度確認が必要です。</span>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><i class="fa-solid fa-arrows-left-right-to-line"></i></div>
+        <div class="check-text">
+          <strong>精神障害者保健福祉手帳との違いを説明できるようにする</strong>
+          <span>利用者から「2つ取れる？」「どちらが得？」と聞かれることがあります。障害の種類・申請機関・更新周期・利用できるサービスの違いを整理して説明できるよう準備してください。</span>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><i class="fa-solid fa-rotate"></i></div>
+        <div class="check-text">
+          <strong>再判定のタイミングを把握・共有する</strong>
+          <span>再判定の頻度は自治体によって異なります（概ね2〜5年）。就職後も手帳の有効期限を追跡し、再判定忘れによる失効がないよう本人・家族と確認する支援が有効です。</span>
+        </div>
+      </li>
+      <li>
+        <div class="check-icon"><i class="fa-solid fa-people-arrows"></i></div>
+        <div class="check-text">
+          <strong>行政窓口への同行・情報提供の場面を想定しておく</strong>
+          <span>手帳の申請・更新・サービス利用計画の変更など、行政手続きに同行・連携する場面があります。「申請窓口（市区町村）」と「判定機関（更生相談所）」が別であることを事前に説明すると、利用者・家族の安心感につながります。</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== SECTION 10: まとめ ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-flag" style="margin-right:6px"></i>まとめ</div>
+    <h2>理解のための5つのキーポイント</h2>
+    <p class="section-lead">この資料で押さえてほしい核心を整理します。</p>
+
+    <div class="card">
+      <ol style="list-style:none; counter-reset:summary-counter;">
+        <li style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);counter-increment:summary-counter;">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--teal-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif JP',serif;font-weight:700;font-size:0.9rem;flex-shrink:0;">1</span>
+          <div>
+            <strong style="font-size:0.95rem;color:var(--teal-deep);">療育手帳は法律ではなく「通知」が根拠</strong>
+            <p class="text-sm mt-8">これが自治体格差の根本原因。名称・等級・基準はすべて自治体ごとに異なることを前提に。</p>
+          </div>
+        </li>
+        <li style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);counter-increment:summary-counter;">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--teal-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif JP',serif;font-weight:700;font-size:0.9rem;flex-shrink:0;">2</span>
+          <div>
+            <strong style="font-size:0.95rem;color:var(--teal-deep);">知的障害の認定は3要素の組み合わせ</strong>
+            <p class="text-sm mt-8">IQだけでなく、適応行動の制限＋発達期発症の3条件が揃って初めて対象になる。</p>
+          </div>
+        </li>
+        <li style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--teal-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif JP',serif;font-weight:700;font-size:0.9rem;flex-shrink:0;">3</span>
+          <div>
+            <strong style="font-size:0.95rem;color:var(--teal-deep);">申請（市区町村）と判定（更生相談所）は別機関</strong>
+            <p class="text-sm mt-8">手続きの流れを理解し、利用者・家族への丁寧な事前説明ができることが支援者として重要。</p>
+          </div>
+        </li>
+        <li style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--teal-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif JP',serif;font-weight:700;font-size:0.9rem;flex-shrink:0;">4</span>
+          <div>
+            <strong style="font-size:0.95rem;color:var(--teal-deep);">境界知能（IQ70〜84）は「制度の空白地帯」</strong>
+            <p class="text-sm mt-8">手帳なし・診断なしでも支援ニーズを持つ層が存在する。手帳の有無だけで支援方針を決めない。</p>
+          </div>
+        </li>
+        <li style="display:flex;gap:14px;padding:14px 0;">
+          <span style="width:32px;height:32px;border-radius:50%;background:var(--teal-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif JP',serif;font-weight:700;font-size:0.9rem;flex-shrink:0;">5</span>
+          <div>
+            <strong style="font-size:0.95rem;color:var(--teal-deep);">手帳取得の意思決定は本人・家族が主体</strong>
+            <p class="text-sm mt-8">スタッフは「勧める人」ではなく「情報を整理して伝える人」。スティグマと向き合う姿勢を支援する。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOURCES ===== -->
+<section id="sources" class="section">
+  <div class="container">
+    <div class="section-tag"><i class="fa-solid fa-book-bookmark" style="margin-right:6px"></i>情報源</div>
+    <h2>参考・関連情報源</h2>
+    <p class="section-lead">より詳しく調べたい方のために、信頼できる公的情報源を掲載します。</p>
+
+    <div class="source-grid">
+      <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/hukushi_kaigo/shougaishahukushi/techou.html" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-landmark"></i></div>
+        <div>
+          <div class="source-title">厚生労働省｜療育手帳制度について</div>
+          <div class="source-url">www.mhlw.go.jp</div>
+        </div>
+      </a>
+
+      <a href="https://www.mhlw.go.jp/toukei/list/71-1c.html" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-chart-bar"></i></div>
+        <div>
+          <div class="source-title">厚生労働省｜身体障害児・者等実態調査（統計）</div>
+          <div class="source-url">www.mhlw.go.jp</div>
+        </div>
+      </a>
+
+      <a href="https://www.fukushihoken.metro.tokyo.lg.jp/shinsho/ainote/ainote.html" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-building"></i></div>
+        <div>
+          <div class="source-title">東京都福祉局｜愛の手帳について</div>
+          <div class="source-url">www.fukushihoken.metro.tokyo.lg.jp</div>
+        </div>
+      </a>
+
+      <a href="https://www.jicl.or.jp/" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-people-group"></i></div>
+        <div>
+          <div class="source-title">日本知的障害者福祉協会</div>
+          <div class="source-url">www.jicl.or.jp</div>
+        </div>
+      </a>
+
+      <a href="https://www.dinf.ne.jp/" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-database"></i></div>
+        <div>
+          <div class="source-title">障害保健福祉研究情報システム（DINF）</div>
+          <div class="source-url">www.dinf.ne.jp</div>
+        </div>
+      </a>
+
+      <a href="https://www.nise.go.jp/" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div>
+          <div class="source-title">国立特別支援教育総合研究所（NISE）</div>
+          <div class="source-url">www.nise.go.jp</div>
+        </div>
+      </a>
+
+      <a href="https://www.rehab.go.jp/" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-hospital"></i></div>
+        <div>
+          <div class="source-title">国立障害者リハビリテーションセンター</div>
+          <div class="source-url">www.rehab.go.jp</div>
+        </div>
+      </a>
+
+      <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/hukushi_kaigo/shougaishahukushi/service/index.html" target="_blank" rel="noopener" class="source-card">
+        <div class="source-icon"><i class="fa-solid fa-list-check"></i></div>
+        <div>
+          <div class="source-title">厚生労働省｜障害福祉サービス等一覧</div>
+          <div class="source-url">www.mhlw.go.jp</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="callout mt-32">
+      <strong><i class="fa-solid fa-rotate" style="margin-right:6px"></i>制度情報のアップデートについて</strong>
+      <p>障害福祉制度は3年ごとに報酬改定が行われ、サービスの内容・基準が変化します。本資料は2024〜2025年度時点の情報を基に作成していますが、最新情報は厚生労働省・各自治体の公式サイトでご確認ください。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>著者 <strong>岡村雄一郎</strong></p>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// Progress bar
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+});
+
+// Intersection Observer for sections
+const sections = document.querySelectorAll('.section');
+const navDots = document.querySelectorAll('.nav-dot');
+const sectionIds = Array.from(navDots).map(d => d.dataset.section);
+
+const observerOpts = { threshold: 0.15 };
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, observerOpts);
+
+sections.forEach(s => sectionObserver.observe(s));
+
+// Nav active dot
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navDots.forEach(d => d.classList.remove('active'));
+      const dot = document.querySelector(`.nav-dot[data-section="${id}"]`);
+      if (dot) dot.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('section[id]').forEach(s => navObserver.observe(s));
+
+// Nav dot click scroll
+navDots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const target = document.getElementById(dot.dataset.section);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Flow steps - staggered animation
+const flowSteps = document.querySelectorAll('.flow-step');
+const flowObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const steps = entry.target.closest('.flow-container')?.querySelectorAll('.flow-step');
+      if (steps) {
+        steps.forEach((step, i) => {
+          setTimeout(() => step.classList.add('visible'), i * 150);
+        });
+      }
+      flowObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.flow-container').forEach(fc => flowObserver.observe(fc));
+
+// Accordion
+document.querySelectorAll('.accordion-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const body = header.nextElementSibling;
+    const isOpen = header.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.accordion-header').forEach(h => {
+      h.classList.remove('open');
+      h.setAttribute('aria-expanded', 'false');
+      h.nextElementSibling.classList.remove('open');
+    });
+
+    if (!isOpen) {
+      header.classList.add('open');
+      header.setAttribute('aria-expanded', 'true');
+      body.classList.add('open');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
